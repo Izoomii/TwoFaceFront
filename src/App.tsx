@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Container from "./components/Container";
+import Header from "./components/Header";
+import Test from "./pages/Test";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import CreateProfile from "./pages/CreateProfile";
+
+//https://stackoverflow.com/a/72072443/19483118
+
+class App extends React.Component<{}, any> {
+  constructor(props: any) {
+    super(props);
+  }
+  render() {
+    return (
+      <Container>
+        <Header />
+        <div className="w-full grow text-white">
+          <Routes>
+            {/* temporary */}
+            <Route path="/createprofile" element={<CreateProfile />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </div>
+      </Container>
+    );
+  }
 }
 
 export default App;
