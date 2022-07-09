@@ -1,6 +1,7 @@
 import React from "react";
+import axios from "axios";
 import ProfileCard from "../components/ProfileCard";
-import { UserInterface } from "../globals";
+import { backUrl, UserInterface } from "../globals";
 
 class Profile extends React.Component<{}, { user: UserInterface | null }> {
   constructor(props: {}) {
@@ -9,16 +10,14 @@ class Profile extends React.Component<{}, { user: UserInterface | null }> {
   }
 
   componentDidMount() {
-    //FOR TEST
-    this.setState({
-      user: {
-        avatar: "PIC",
-        username: "Obito",
-        email: "obito@mail.com",
-        password: "obitothebest",
-        name: "",
-      },
-    });
+    axios
+      .get(`${backUrl}/users/whoami`, {
+        withCredentials: true,
+      })
+      .then(({ data }) => {
+        const user = data.user as UserInterface;
+        this.setState({ user });
+      });
   }
   //check this
   //   componentWillUnmount() {

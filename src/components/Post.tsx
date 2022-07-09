@@ -12,7 +12,7 @@ class Post extends React.Component<{ post: PostInterface }, {}> {
       <div className="p-5 my-4 w-full bg-slate-600 flex flex-col rounded-lg">
         <div className="flex flex-col">
           <div className="text-2xl">{this.post.title}</div>
-          <div className="text-slate-300 italic">{this.post.author}</div>
+          <div className="text-slate-300 italic">{this.post.authorname}</div>
         </div>
         <div className="p-5 w-full bg-slate-700 rounded-lg">
           {this.post.content}

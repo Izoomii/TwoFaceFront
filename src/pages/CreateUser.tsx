@@ -3,22 +3,23 @@ import axios from "axios";
 import { backUrl } from "../globals";
 
 //this feels bad, man
-class CreateProfile extends React.Component<
+class CreateUser extends React.Component<
   {},
-  { username: string; email: string; password: string; name: string }
+  { firstname: string; email: string; password: string; repeatPassword: string }
 > {
   constructor(props: {}) {
     super(props);
-    this.state = { username: "", email: "", password: "", name: "" };
+    this.state = { firstname: "", email: "", password: "", repeatPassword: "" };
   }
 
   createProfile = () => {
     //assumes all inputs are correcte bc m tired
+    //add verifications here
     const userInfo = {
-      username: this.state.username,
+      firstname: this.state.firstname,
       email: this.state.email,
       password: this.state.password,
-      name: this.state.name,
+      repeatPassword: this.state.repeatPassword,
     };
     axios
       .post(`${backUrl}/users/create`, userInfo, {
@@ -26,8 +27,8 @@ class CreateProfile extends React.Component<
           "Content-Type": "application/json",
         },
       })
-      .then(() => {
-        console.log("Created new profile");
+      .then(({ data }) => {
+        console.log(data);
       });
   };
 
@@ -35,10 +36,10 @@ class CreateProfile extends React.Component<
     return (
       <div className="p-5 flex flex-col text-black">
         <input
-          placeholder="Username"
-          value={this.state.username}
+          placeholder="First name"
+          value={this.state.firstname}
           onChange={(event) => {
-            this.setState({ username: event.target.value });
+            this.setState({ firstname: event.target.value });
           }}
         />
         <input
@@ -56,10 +57,10 @@ class CreateProfile extends React.Component<
           }}
         />
         <input
-          placeholder="Name"
-          value={this.state.name}
+          placeholder="Repeat Password"
+          value={this.state.repeatPassword}
           onChange={(event) => {
-            this.setState({ name: event.target.value });
+            this.setState({ repeatPassword: event.target.value });
           }}
         />
         <button
@@ -75,4 +76,4 @@ class CreateProfile extends React.Component<
   }
 }
 
-export default CreateProfile;
+export default CreateUser;

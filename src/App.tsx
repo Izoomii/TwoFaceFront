@@ -6,7 +6,11 @@ import Test from "./pages/Test";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 
-import CreateProfile from "./pages/CreateProfile";
+import CreateUser from "./pages/CreateUser";
+import Login from "./pages/Login";
+import Settings from "./pages/Settings";
+import CreatePost from "./pages/CreatePost";
+import CreateChat from "./pages/CreateChat";
 
 //https://stackoverflow.com/a/72072443/19483118
 
@@ -20,11 +24,14 @@ class App extends React.Component<{}, any> {
         <Header />
         <div className="w-full grow text-white">
           <Routes>
-            {/* temporary */}
-            <Route path="/createprofile" element={<CreateProfile />} />
             <Route path="/test" element={<Test />} />
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/createuser" element={<CreateUser />} />
+            <Route path="/createpost" element={<CreatePost />} />
+            <Route path="/createchat" element={<CreateChat />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />} />
           </Routes>
         </div>
       </Container>
