@@ -16,7 +16,7 @@ class CreatePost extends React.Component<
   }
 
   async componentDidMount() {
-    const user = isAuthentified();
+    const user = await isAuthentified();
     if (!user) return redirectToLogin();
   }
 

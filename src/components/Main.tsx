@@ -1,7 +1,12 @@
 import React from "react";
 import Post from "./Post";
 import axios from "axios";
-import { backUrl, PostInterface } from "../globals";
+import {
+  backUrl,
+  isAuthentified,
+  PostInterface,
+  UserInterface,
+} from "../globals";
 
 const dummyPost = {
   _id: "asdhfaskdf",
@@ -13,13 +18,19 @@ const dummyPost = {
   updated_at: new Date(),
 };
 
-class Main extends React.Component<{}, { posts: PostInterface[] }> {
+class Main extends React.Component<
+  {},
+  { posts: PostInterface[]; user: UserInterface | null }
+> {
   constructor(props: {}) {
     super(props);
-    this.state = { posts: [] };
+    this.state = { posts: [], user: null };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const user = await isAuthentified();
+    if (user) this.setState({ user: user });
+
     axios.get(`${backUrl}/posts/all`).then(({ data }) => {
       const postsArray = data.data as PostInterface[];
       this.setState({ posts: postsArray });
@@ -31,7 +42,7 @@ class Main extends React.Component<{}, { posts: PostInterface[] }> {
       <div className="w-full h-full flex flex-col">
         <div className="p-5">
           {this.state.posts.map((elem, index) => {
-            return <Post post={elem} key={index} />;
+            return <Post post={elem} user={this.state.user} key={index} />;
           })}
         </div>
       </div>

@@ -12,6 +12,7 @@ class Header extends React.Component<{}, {}> {
           <Link to={"/profile"}>Profile</Link>
           <Link to={"/login"}>Login</Link>
           <Link to={"/settings"}>Settings</Link>
+          <Link to={"/chats"}>Chats</Link>
           <Link to={"/test"}>TEST</Link>
         </div>
         <div className="w-1/4 h-full bg-orange-100"></div>

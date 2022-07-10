@@ -34,6 +34,24 @@ export interface ChatInterface {
   participants: string[];
 }
 
+export interface MessageInterface {
+  _id: string;
+  chat_id: string;
+  author_id: string;
+  created_at: Date;
+  content: string;
+}
+
+export interface CommentInterface {
+  _id: string;
+  author_id: string;
+  parent_id: string;
+  parenttype: "post" | "comment";
+  content: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export const isAuthentified = async (): Promise<UserInterface | null> => {
   let user: UserInterface | null = null;
   await axios

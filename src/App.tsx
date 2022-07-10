@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Test from "./pages/Test";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import Chats from "./pages/Chats";
 
 import CreateUser from "./pages/CreateUser";
 import Login from "./pages/Login";
@@ -21,19 +22,17 @@ class App extends React.Component<{}, any> {
   render() {
     return (
       <Container>
-        <Header />
-        <div className="w-full grow text-white">
-          <Routes>
-            <Route path="/test" element={<Test />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/createuser" element={<CreateUser />} />
-            <Route path="/createpost" element={<CreatePost />} />
-            <Route path="/createchat" element={<CreateChat />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/settings" element={<Settings />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/test" element={<Test />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/chats" element={<Chats />} />
+          <Route path="/createuser" element={<CreateUser />} />
+          <Route path="/createpost" element={<CreatePost />} />
+          <Route path="/createchat" element={<CreateChat />} />
+        </Routes>
       </Container>
     );
   }
