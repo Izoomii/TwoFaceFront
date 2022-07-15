@@ -49,7 +49,7 @@ class Post extends React.Component<
 
   render(): React.ReactNode {
     return (
-      <div className="p-5 my-4 w-full bg-slate-600 flex flex-col rounded-lg">
+      <div className="p-5 mb-4 w-full bg-slate-600 flex flex-col rounded-lg">
         <div className="flex flex-col">
           <div className="text-2xl">{this.props.post.title}</div>
           <div className="text-slate-300 italic">

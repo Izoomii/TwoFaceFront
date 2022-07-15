@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { backUrl } from "../globals";
+import { backUrl, redirectToHome, UserInterface } from "../globals";
 
 class Login extends React.Component<{}, { email: string; password: string }> {
   constructor(props: {}) {

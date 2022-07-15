@@ -1,6 +1,11 @@
 import axios from "axios";
 import React from "react";
-import { backUrl, UserInterface } from "../globals";
+import {
+  backUrl,
+  isAuthentified,
+  redirectToLogin,
+  UserInterface,
+} from "../globals";
 
 class Settings extends React.Component<
   {},
@@ -31,16 +36,14 @@ class Settings extends React.Component<
     this.profilePictureRef = React.createRef();
   }
 
-  componentDidMount() {
-    axios
-      .get(`${backUrl}/users/whoami`, {
-        withCredentials: true,
-      })
-      .then(({ data }) => {
-        const user = data.user;
-        if (user !== null)
-          return this.setState({ user: user, updatedUser: user });
-      });
+  async componentDidMount() {
+    try {
+      const user = await isAuthentified();
+      if (!user) return redirectToLogin();
+      this.setState({ user: user, updatedUser: user });
+    } catch {
+      console.log("bruh");
+    }
   }
 
   updateUserInfo = async () => {

@@ -52,6 +52,15 @@ export interface CommentInterface {
   updated_at: Date;
 }
 
+export interface FriendshipInterface {
+  _id: string;
+  sender_id: string;
+  receiver_id: string;
+  status: "accepted" | "pending" | "declined";
+  created_at: Date;
+  updated_at: Date;
+}
+
 export const isAuthentified = async (): Promise<UserInterface | null> => {
   let user: UserInterface | null = null;
   await axios
@@ -60,10 +69,19 @@ export const isAuthentified = async (): Promise<UserInterface | null> => {
     })
     .then(({ data }) => {
       user = data.user;
+    })
+    .catch(() => {
+      console.error("irrelevant error in auth function when redirecting");
     });
   return user;
 };
 
 export const redirectToLogin = () => {
   console.log("get redirected here");
+  window.location.pathname = "/login";
+};
+
+export const redirectToHome = () => {
+  console.log("redirect to home here");
+  window.location.pathname = "/";
 };

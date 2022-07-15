@@ -1,20 +1,25 @@
 import axios from "axios";
-import React from "react";
-import { isAuthentified } from "../globals";
+import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import {
+  backUrl,
+  isAuthentified,
+  redirectToLogin,
+  UserInterface,
+} from "../globals";
 
-class Test extends React.Component<{}, { testvar: any }> {
-  constructor(props: {}) {
-    super(props);
-    this.state = { testvar: "" };
-  }
-  async componentDidMount() {
-    const user = await isAuthentified();
-    console.log(user);
-  }
+const Test = () => {
+  const [redirect, setRedirect] = useState(false);
 
-  render(): React.ReactNode {
-    return <div>test page</div>;
-  }
-}
+  useEffect(() => {
+    isAuthentified().then((user) => {
+      if (user === null) setRedirect(true);
+    });
+  });
+
+  if (redirect) return <Navigate to={"/login"} />;
+
+  return <div>test page</div>;
+};
 
 export default Test;

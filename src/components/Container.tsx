@@ -1,4 +1,5 @@
 import React, { PropsWithChildren } from "react";
+import { isAuthentified, UserInterface } from "../globals";
 import Header from "./Header";
 
 class Container extends React.Component<PropsWithChildren, {}> {
@@ -9,8 +10,12 @@ class Container extends React.Component<PropsWithChildren, {}> {
   render() {
     return (
       <div className="w-screen h-screen bg-slate-800 flex flex-col ">
-        <Header />
-        <div className="w-full grow text-white">{this.props.children}</div>
+        <div>
+          <Header />
+        </div>
+        <div className="w-full grow text-white overflow-y-auto">
+          {this.props.children}
+        </div>
       </div>
     );
   }

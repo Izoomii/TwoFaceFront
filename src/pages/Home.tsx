@@ -5,7 +5,7 @@ import Main from "../components/Main";
 class Home extends React.Component {
   render() {
     return (
-      <div className="w-full h-full flex">
+      <div className="w-full h-min flex">
         <div id="leftdiv" className="w-1/5 h-full">
           left side thing here
         </div>

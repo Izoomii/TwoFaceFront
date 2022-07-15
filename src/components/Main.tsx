@@ -7,6 +7,7 @@ import {
   PostInterface,
   UserInterface,
 } from "../globals";
+import { Link } from "react-router-dom";
 
 const dummyPost = {
   _id: "asdhfaskdf",
@@ -40,7 +41,14 @@ class Main extends React.Component<
   render() {
     return (
       <div className="w-full h-full flex flex-col">
-        <div className="p-5">
+        <div className="p-3">
+          <Link to={"/createpost"}>
+            <div className="bg-gray-800 p-4 flex justify-center rounded-full">
+              Create a new post!
+            </div>
+          </Link>
+        </div>
+        <div className="p-5 ">
           {this.state.posts.map((elem, index) => {
             return <Post post={elem} user={this.state.user} key={index} />;
           })}

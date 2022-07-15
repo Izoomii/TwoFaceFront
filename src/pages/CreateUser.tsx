@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { backUrl } from "../globals";
+import { backUrl, redirectToHome, UserInterface } from "../globals";
 
 //this feels bad, man
 class CreateUser extends React.Component<
@@ -13,8 +13,13 @@ class CreateUser extends React.Component<
   }
 
   createProfile = () => {
-    //assumes all inputs are correcte bc m tired
-    //add verifications here
+    if (
+      this.state.firstname === "" ||
+      this.state.email === "" ||
+      this.state.password === ""
+    )
+      return console.log("All fields are required!");
+
     const userInfo = {
       firstname: this.state.firstname,
       email: this.state.email,
@@ -29,6 +34,8 @@ class CreateUser extends React.Component<
       })
       .then(({ data }) => {
         console.log(data);
+        const newUser = data.user as UserInterface;
+        if (newUser == null) return redirectToHome(); // flip the check condition when done with testing
       });
   };
 
