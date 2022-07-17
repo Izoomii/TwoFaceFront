@@ -4,6 +4,7 @@ const backPort = 8080;
 export const backUrl = `http://localhost:${backPort}`;
 
 export const profilePicturePath = "/assets/userpics";
+export const postPicturePath = "/assets/postpics";
 
 export interface PostInterface {
   _id: string;
@@ -11,6 +12,7 @@ export interface PostInterface {
   content: string;
   author_id: string;
   authorname: string;
+  image: string;
   created_at: Date;
   updated_at: Date;
 }

@@ -1,3 +1,4 @@
+import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
 import ChatList from "../components/ChatsList";
 import Main from "../components/Main";
@@ -5,17 +6,17 @@ import Main from "../components/Main";
 class Home extends React.Component {
   render() {
     return (
-      <div className="w-full h-min flex">
-        <div id="leftdiv" className="w-1/5 h-full">
+      <Flex width={"100%"} height={"min"}>
+        <Box id="leftdiv" width={"20%"} height={"100%"}>
           left side thing here
-        </div>
-        <div id="maindiv" className="w-3/5 h-full bg-slate-900">
+        </Box>
+        <Box id="maindiv" width={"60%"} height="100%" bg={"gray.800"}>
           <Main />
-        </div>
-        <div id="messagediv" className="w-1/5 h-full">
+        </Box>
+        <Box id="chatsdiv" width={"20%"} height={"100%"}>
           <ChatList />
-        </div>
-      </div>
+        </Box>
+      </Flex>
     );
   }
 }

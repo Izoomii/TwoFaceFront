@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import React from "react";
 import { MessageInterface } from "../globals";
 
@@ -7,15 +8,19 @@ class ChatLog extends React.Component<{ log: MessageInterface[] }, {}> {
   }
   render(): React.ReactNode {
     return (
-      <div>
-        {this.props.log.map((elem, index) => {
-          return (
-            <div className="p-2" key={index}>
-              {elem.content}
-            </div>
-          );
-        })}
-      </div>
+      <Box height={"100%"} width={"100%"}>
+        {!this.props.log ? (
+          <></>
+        ) : (
+          this.props.log.map((elem, index) => {
+            return (
+              <Box padding={"0.5rem"} key={index}>
+                {elem.content}
+              </Box>
+            );
+          })
+        )}
+      </Box>
     );
   }
 }

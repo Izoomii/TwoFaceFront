@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -22,26 +23,26 @@ const UserPage = () => {
   }, []);
 
   return (
-    <div>
+    <Box width={"100%"}>
       <div>
         {connectedUser ? (
-          <div className="w-1/2 h-20">
+          <Box width={"50%"} height={"5rem"}>
             <LogoutComponent />
-          </div>
+          </Box>
         ) : (
           <></>
         )}
       </div>
-      <div>
+      <Box width={"100%"}>
         <ProfileCard user={viewedUser} />
-      </div>
-      <div className="w-1/2 h-40">
+      </Box>
+      <Box width={"50%"} height={"5rem"}>
         <FriendRequestComponent
           connectedUser={connectedUser}
           viewedUser={viewedUser}
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

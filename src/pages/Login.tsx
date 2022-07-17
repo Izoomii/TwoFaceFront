@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { backUrl, redirectToHome, UserInterface } from "../globals";
+import { Button, Flex } from "@chakra-ui/react";
 
 class Login extends React.Component<{}, { email: string; password: string }> {
   constructor(props: {}) {
@@ -24,12 +25,15 @@ class Login extends React.Component<{}, { email: string; password: string }> {
       )
       .then(({ data }) => {
         console.log(data);
+        const authorized = data.authorized as boolean;
+        if (!authorized) return this.setState({ password: "" });
+        window.location.pathname = "/";
       });
   };
 
   render(): React.ReactNode {
     return (
-      <div className="w-1/3 flex flex-col text-black">
+      <Flex direction={"column"} width={"33%"} textColor={"black"}>
         <input
           placeholder="Email"
           value={this.state.email}
@@ -44,15 +48,17 @@ class Login extends React.Component<{}, { email: string; password: string }> {
             this.setState({ password: event.target.value });
           }}
         />
-        <button
+        <Button
           onClick={() => {
             this.loginUser();
           }}
-          className="p-1 bg-blue-600 text-white"
+          padding={"0.25rem"}
+          bg={"blue.500"}
+          textColor={"white"}
         >
           Login
-        </button>
-      </div>
+        </Button>
+      </Flex>
     );
   }
 }

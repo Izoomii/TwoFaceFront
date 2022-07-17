@@ -1,5 +1,5 @@
+import { Flex } from "@chakra-ui/react";
 import React, { PropsWithChildren } from "react";
-import { isAuthentified, UserInterface } from "../globals";
 import Header from "./Header";
 
 class Container extends React.Component<PropsWithChildren, {}> {
@@ -9,14 +9,18 @@ class Container extends React.Component<PropsWithChildren, {}> {
 
   render() {
     return (
-      <div className="w-screen h-screen bg-slate-800 flex flex-col ">
-        <div>
-          <Header />
-        </div>
-        <div className="w-full grow text-white overflow-y-auto">
+      <Flex
+        direction={"column"}
+        height={"100vh"}
+        width={"100%"}
+        background="gray.500"
+        // bg={"ariana.600"}
+      >
+        <Header />
+        <Flex height={"100%"} width={"100%"} overflowY={"scroll"}>
           {this.props.children}
-        </div>
-      </div>
+        </Flex>
+      </Flex>
     );
   }
 }

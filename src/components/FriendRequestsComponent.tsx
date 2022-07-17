@@ -1,3 +1,4 @@
+import { Box, Button } from "@chakra-ui/react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { backUrl, FriendshipInterface, UserInterface } from "../globals";
@@ -90,10 +91,12 @@ const FriendRequestComponent = (props: {
     }
   };
 
-  return !props.connectedUser || !props.viewedUser ? (
+  return !props.connectedUser ||
+    !props.viewedUser ||
+    props.connectedUser._id === props.viewedUser._id ? (
     <></>
   ) : (
-    <div className="w-full h-full rounded-lg overflow-hidden bg-slate-600">
+    <Box width={"100%"} height={"100%"} rounded={"lg"} background={"slategray"}>
       <div>
         {!friendship ? (
           <div>friendship doesnt exist</div>
@@ -105,28 +108,35 @@ const FriendRequestComponent = (props: {
         )}
       </div>
       <div>
-        <button
+        <Button
           onClick={() => {
             clickFriendRequest(true);
           }}
-          className="p-3 rounded-lg text-2xl text-white bg-blue-700"
+          padding={"0.75rem"}
+          rounded={"lg"}
+          fontSize={"2xl"}
+          textColor={"white"}
+          background={"blue.600"}
         >
           {panelState !== "accept/decline" ? panelState : "Accept"}
-        </button>
+        </Button>
         {panelState !== "accept/decline" ? (
           <></>
         ) : (
-          <button
+          <Button
             onClick={() => {
               clickFriendRequest(false);
             }}
-            className="p-3 rounded-lg text-xl text-white bg-red-700"
+            padding={"0.75rem"}
+            rounded={"lg"}
+            textColor={"white"}
+            bg={"red.600"}
           >
             Decline
-          </button>
+          </Button>
         )}
       </div>
-    </div>
+    </Box>
   );
 };
 

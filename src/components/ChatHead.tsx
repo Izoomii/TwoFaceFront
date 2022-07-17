@@ -1,3 +1,4 @@
+import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { ChatInterface } from "../globals";
@@ -27,15 +28,19 @@ class ChatHead extends React.Component<
       // return <Navigate to={`/chats?c=${this.chatHead._id}`} />;
     } else {
       return (
-        <div
+        <Flex
           onClick={() => {
             this.showChat();
           }}
-          className="p-3 my-2 w-full rounded-lg bg-blue-400 flex overflow-hidden"
+          padding={"0.25rem"}
+          marginY={"0.5rem"}
+          width={"full"}
+          rounded={"lg"}
+          background={"blue.400"}
         >
-          <div className="mr-2 bg-red-400">{this.chatHead.image}</div>
-          <div className="text-xl">{this.chatHead.chatname}</div>
-        </div>
+          <Box marginRight={"0.5rem"}>{this.chatHead.image}</Box>
+          <Box fontSize={"xl"}>{this.chatHead.chatname}</Box>
+        </Flex>
       );
     }
   }

@@ -1,3 +1,4 @@
+import { Box, Button, Flex } from "@chakra-ui/react";
 import axios from "axios";
 import React from "react";
 import {
@@ -53,31 +54,38 @@ class Settings extends React.Component<
     for (key in updatedUser) {
       formData.append(key, updatedUser[key]);
     }
+
     if (this.state.profilePicture)
       formData.append("profilePicture", this.state.profilePicture);
-    try {
-      await axios
-        .post(`${backUrl}/users/update`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        })
-        .then(({ data }) => {
-          console.log(data);
-        });
-    } catch (err) {
-      console.log("[KNOWN] weird Axios large file/timeout error: ", err);
-    }
+
+    await axios
+      .post(`${backUrl}/users/update`, formData, {
+        timeout: 20000,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      })
+      .then(({ data }) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log("[KNOWN] weird Axios large file/timeout error: ", err);
+      });
   };
 
   render(): React.ReactNode {
     return (
-      <div className="w-full h-full">
+      <Box width={"100%"} height={"100%"}>
         {!this.state.user ? (
           <div>no user</div>
         ) : (
-          <div className="w-1/3 h-full text-black flex flex-col">
+          <Flex
+            direction={"column"}
+            width={"33%"}
+            height={"100%"}
+            textColor={"black"}
+          >
             <input
               placeholder="Lastname"
               value={this.state.updatedUser.lastname}
@@ -114,17 +122,18 @@ class Settings extends React.Component<
               }}
             />
 
-            <button
-              className="p-2 bg-blue-700"
+            <Button
+              padding={"0.5rem"}
+              bg={"blue.600"}
               onClick={() => {
                 this.updateUserInfo();
               }}
             >
               Updated Info
-            </button>
-          </div>
+            </Button>
+          </Flex>
         )}
-      </div>
+      </Box>
     );
   }
 }

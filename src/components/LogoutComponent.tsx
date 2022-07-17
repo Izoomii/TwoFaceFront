@@ -1,3 +1,4 @@
+import { Flex } from "@chakra-ui/react";
 import axios from "axios";
 import { backUrl, UserInterface } from "../globals";
 
@@ -7,18 +8,26 @@ const LogoutComponent = () => {
       .post(`${backUrl}/users/logout`, {}, { withCredentials: true })
       .then(({ data }) => {
         console.log(data);
+        window.location.pathname = "/login";
       });
   };
 
   return (
-    <button
+    <Flex
       onClick={() => {
         logoutUser();
       }}
-      className="w-full h-full bg-red-600 hover:bg-red-700 rounded-lg text-2xl text-white flex justify-center items-center"
+      width={"100%"}
+      height={"100%"}
+      bg={"red.500"}
+      rounded={"lg"}
+      textColor={"white"}
+      fontSize={"2xl"}
+      justifyContent={"center"}
+      alignItems={"center"}
     >
       Logout
-    </button>
+    </Flex>
   );
 };
 

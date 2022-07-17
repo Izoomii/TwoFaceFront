@@ -1,3 +1,4 @@
+import { Button, Flex } from "@chakra-ui/react";
 import axios from "axios";
 import React from "react";
 import { backUrl, isAuthentified, redirectToLogin } from "../globals";
@@ -36,7 +37,7 @@ class CreatePost extends React.Component<
 
   render(): React.ReactNode {
     return (
-      <div className="p-2 flex flex-col text-black">
+      <Flex direction={"column"} padding={"0.5rem"} textColor={"black"}>
         <input
           placeholder="Title"
           value={this.state.title}
@@ -51,15 +52,16 @@ class CreatePost extends React.Component<
             this.setState({ content: event.target.value });
           }}
         />
-        <button
-          className="p-2 bg-blue-600"
+        <Button
+          padding={"0.5rem"}
+          bg={"blue.500"}
           onClick={() => {
             this.createPost();
           }}
         >
           Create Post
-        </button>
-      </div>
+        </Button>
+      </Flex>
     );
   }
 }

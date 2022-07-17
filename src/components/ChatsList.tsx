@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import axios from "axios";
 import React from "react";
 import { backUrl, ChatInterface, UserInterface } from "../globals";
@@ -31,11 +32,16 @@ class ChatList extends React.Component<{}, { chatList: ChatInterface[] }> {
 
   render(): React.ReactNode {
     return (
-      <div className="w-full h-full p-5 text-white">
+      <Box
+        width={"100%"}
+        height={"100%"}
+        padding={"1.25rem"}
+        textColor={"white"}
+      >
         {this.state.chatList.map((elem, index) => {
           return <ChatHead chatHead={elem} key={index} />;
         })}
-      </div>
+      </Box>
     );
   }
 }

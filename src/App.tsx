@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Container from "./components/Container";
-import Header from "./components/Header";
 import Test from "./pages/Test";
 import Home from "./pages/Home";
 import Chats from "./pages/Chats";
@@ -13,6 +12,8 @@ import CreatePost from "./pages/CreatePost";
 import CreateChat from "./pages/CreateChat";
 import UserIndex from "./pages/users";
 import UserPage from "./pages/users/id";
+import PostsIndex from "./pages/posts";
+import PostPage from "./pages/posts/id";
 
 //https://stackoverflow.com/a/72072443/19483118
 
@@ -29,6 +30,8 @@ class App extends React.Component<{}, any> {
           <Route path="/login" element={<Login />} />
           <Route path="/users" element={<UserIndex />} />
           <Route path="/users/:id" element={<UserPage />} />
+          <Route path="/posts" element={<PostsIndex />} />
+          <Route path="/posts/:id" element={<PostPage />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/chats" element={<Chats />} />
           <Route path="/createuser" element={<CreateUser />} />

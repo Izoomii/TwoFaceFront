@@ -1,3 +1,4 @@
+import { Box, Button, Flex, Input } from "@chakra-ui/react";
 import axios from "axios";
 import React from "react";
 import ChatLog from "../components/ChatLog";
@@ -75,48 +76,57 @@ class Chats extends React.Component<
 
   render(): React.ReactNode {
     return (
-      <div className="w-full h-full flex bg-red-600">
-        <div className="w-1/5 bg-slate-500 p-2">
-          <div>
-            {this.state.chatList.map((elem, index) => {
-              return (
-                <div
-                  key={index}
-                  onClick={() => {
-                    this.setCurrentChat(elem._id);
-                  }}
-                  className="w-full my-2 p-3 bg-blue-400 rounded-lg text-white"
-                >
-                  {elem.chatname}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div className="grow h-full p-2">
-          <div className="w-full h-full">
-            <ChatLog log={this.state.log} />
-            <div className="w-full h-12 flex">
-              <input
+      <Flex width={"100%"} height={"100%"} bg={"red.100"}>
+        <Box width={"20%"} bg={"gray.500"} padding={"0.5rem"}>
+          {this.state.chatList.map((elem, index) => {
+            return (
+              <Box
+                key={index}
+                onClick={() => {
+                  this.setCurrentChat(elem._id);
+                }}
+                width={"100%"}
+                marginY={"0.5rem"}
+                padding={"0.75rem"}
+                bg={"blue.300"}
+                rounded={"lg"}
+                textColor={"white"}
+              >
+                {elem.chatname}
+              </Box>
+            );
+          })}
+        </Box>
+        <Box flexGrow={"1"} height={"100%"} padding={"0.5rem"}>
+          <Flex direction={"column"} width={"100%"} height={"100%"}>
+            <Box width={"100%"} flexGrow={"1"}>
+              <ChatLog log={this.state.log} />
+            </Box>
+            <Flex width={"100%"} height={"3rem"}>
+              <Input
                 placeholder="Message..."
                 value={this.state.message}
                 onChange={(event) => {
                   this.setState({ message: event.target.value });
                 }}
-                className="grow text-black"
+                flexGrow={"1"}
+                height={"100%"}
+                textColor={"black"}
               />
-              <button
+              <Button
                 onClick={() => {
                   this.sendMessage();
                 }}
-                className="p-3 bg-blue-600 h-full"
+                padding={"0.75rem"}
+                bg={"blue.500"}
+                height={"100%"}
               >
                 Send Message
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+              </Button>
+            </Flex>
+          </Flex>
+        </Box>
+      </Flex>
     );
   }
 }

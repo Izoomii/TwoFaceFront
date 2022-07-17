@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { backUrl, redirectToHome, UserInterface } from "../globals";
+import { Button, Flex } from "@chakra-ui/react";
 
 //this feels bad, man
 class CreateUser extends React.Component<
@@ -41,7 +42,7 @@ class CreateUser extends React.Component<
 
   render(): React.ReactNode {
     return (
-      <div className="p-5 flex flex-col text-black">
+      <Flex direction={"column"} padding={"1.25rem"} textColor={"black"}>
         <input
           placeholder="First name"
           value={this.state.firstname}
@@ -70,15 +71,16 @@ class CreateUser extends React.Component<
             this.setState({ repeatPassword: event.target.value });
           }}
         />
-        <button
+        <Button
           onClick={() => {
             this.createProfile();
           }}
-          className="p-3 bg-blue-600"
+          padding={"0.75rem"}
+          bg={"blue.500"}
         >
           Create Profile
-        </button>
-      </div>
+        </Button>
+      </Flex>
     );
   }
 }

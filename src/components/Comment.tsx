@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import axios from "axios";
 import React from "react";
 import { backUrl, CommentInterface, UserInterface } from "../globals";
@@ -19,15 +20,19 @@ class Comment extends React.Component<
       .get(`${backUrl}/users/user?user_id=${this.props.comment.author_id}`)
       .then(({ data }) => {
         const user = data.user as UserInterface;
+        if (!user) return;
         this.setState({ commentAuthor: user.firstname });
+      })
+      .catch((err) => {
+        console.error("Comment request had a problem");
       });
   }
 
   render(): React.ReactNode {
     return (
-      <div>
+      <Box marginY={"0.75"}>
         {this.state.commentAuthor}: {this.props.comment.content}
-      </div>
+      </Box>
     );
   }
 }

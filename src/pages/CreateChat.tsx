@@ -1,3 +1,4 @@
+import { Button, Flex } from "@chakra-ui/react";
 import axios from "axios";
 import React from "react";
 import { backUrl, isAuthentified, redirectToLogin } from "../globals";
@@ -49,7 +50,12 @@ class CreateChat extends React.Component<
 
   render(): React.ReactNode {
     return (
-      <div className="w-full h-full flex flex-col text-black">
+      <Flex
+        direction={"column"}
+        width={"100%"}
+        height={"100%"}
+        textColor={"black"}
+      >
         <input
           placeholder="Chat name"
           value={this.state.chatname}
@@ -65,15 +71,16 @@ class CreateChat extends React.Component<
           }}
         />
 
-        <button
-          className="p-3 bg-blue-500"
+        <Button
+          padding={"0.75rem"}
+          bg={"blue.400"}
           onClick={() => {
             this.createChat();
           }}
         >
           Create Chat
-        </button>
-      </div>
+        </Button>
+      </Flex>
     );
   }
 }

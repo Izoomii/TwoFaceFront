@@ -1,3 +1,4 @@
+import { Box, Button, Flex, Input } from "@chakra-ui/react";
 import axios from "axios";
 import React from "react";
 import {
@@ -57,33 +58,52 @@ class CommentsList extends React.Component<
 
   render(): React.ReactNode {
     return (
-      <div>
-        <div className="w-full flex">
-          <input
-            placeholder="Your comment..."
-            value={this.state.newComment}
-            onChange={(event) => {
-              this.setState({ newComment: event.target.value });
-            }}
-            className="grow text-black"
-          />
-          <button
-            onClick={() => {
-              this.sendComment();
-            }}
-            className="p-2 bg-blue-300"
-          >
-            Send
-          </button>
-        </div>
-        <div className="w-full">
-          {this.state.commentsList.map((elem, index) => {
-            return (
-              <Comment key={index} comment={elem} user={this.props.user} />
-            );
-          })}
-        </div>
-      </div>
+      <Box rounded={"lg"} overflow={"hidden"} paddingY={"0.5rem"}>
+        <Flex
+          width={"100%"}
+          rounded={"lg"}
+          paddingX={"1rem"}
+          paddingY={"0.5rem"}
+        >
+          <Flex width={"100%"} height={"100%"} rounded={"xl"}>
+            <Input
+              placeholder="Your comment..."
+              value={this.state.newComment}
+              onChange={(event) => {
+                this.setState({ newComment: event.target.value });
+              }}
+              variant={"filled"}
+              padding={"0.5rem"}
+              flexGrow={"1"}
+              textColor={"black"}
+            />
+            <Button
+              onClick={() => {
+                this.sendComment();
+              }}
+              padding={"0.5rem"}
+              background={"blue.400"}
+              _hover={{ background: "blue.600" }}
+            >
+              Send
+            </Button>
+          </Flex>
+        </Flex>
+
+        <Box width={"100%"} padding={"0.75rem"}>
+          {/* avoids trying to map list before it is created */}
+          {this.state.commentsList == undefined ? (
+            <></>
+          ) : (
+            this.state.commentsList.map((elem, index) => {
+              return (
+                <Comment key={index} comment={elem} user={this.props.user} />
+              );
+            })
+          )}
+        </Box>
+      </Box>
+      // </div>
     );
   }
 }
