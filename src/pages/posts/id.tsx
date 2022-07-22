@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Center, Flex } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -35,9 +35,11 @@ const PostPage = () => {
   }, []);
 
   return (
-    <Box padding={"1.25rem"}>
-      {!post ? <></> : <PostCard post={post} user={connectedUser} />}
-    </Box>
+    <Flex width={"full"} justifyContent={"center"}>
+      <Box padding={"1.25rem"} width={"75%"}>
+        {!post ? <></> : <PostCard post={post} user={connectedUser} />}
+      </Box>
+    </Flex>
   );
 };
 export default PostPage;

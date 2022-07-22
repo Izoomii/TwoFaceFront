@@ -1,43 +1,35 @@
 import { Button, Flex } from "@chakra-ui/react";
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { backUrl, isAuthentified, redirectToLogin } from "../globals";
 
-class CreateChat extends React.Component<
-  {},
-  { userEmail: string; image: string; chatname: string; participants: string }
-> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      userEmail: "",
-      image: "",
-      chatname: "",
-      participants: "",
-    };
-  }
+const CreateChat = () => {
+  const [userEmail, setUserEmail] = useState("");
+  const [image, setImage] = useState("");
+  const [chatname, setChatname] = useState("");
+  const [participants, setParticipants] = useState("");
 
-  async componentDidMount() {
-    const user = await isAuthentified();
-    if (!user) return redirectToLogin();
-    this.setState({ userEmail: user.email });
-  }
+  useEffect(() => {
+    isAuthentified().then((user) => {
+      if (!user) return redirectToLogin();
+      setUserEmail(user.email);
+    });
+  }, []);
 
-  createChat = () => {
-    const chatname = this.state.chatname;
+  const createChat = () => {
     //removes empty spaces, then splits by space, then filters empty elements
-    const participants = this.state.participants
+    const participantsList = participants
       .replace(/(\r\n|\n|\r)/gm, " ")
       .split(" ")
       .filter((e) => e !== "");
-    participants.unshift(this.state.userEmail);
+    participantsList.unshift(userEmail);
     axios
       .post(
         `${backUrl}/chats/create`,
         {
-          image: this.state.image,
+          image: image,
           chatname,
-          participants,
+          participants: participantsList,
         },
         {
           withCredentials: true,
@@ -48,41 +40,39 @@ class CreateChat extends React.Component<
       });
   };
 
-  render(): React.ReactNode {
-    return (
-      <Flex
-        direction={"column"}
-        width={"100%"}
-        height={"100%"}
-        textColor={"black"}
-      >
-        <input
-          placeholder="Chat name"
-          value={this.state.chatname}
-          onChange={(event) => {
-            this.setState({ chatname: event.target.value });
-          }}
-        />
-        <input
-          placeholder="Participants' emails seperated by space, on god i will change this just later :sleep_emoji:"
-          value={this.state.participants}
-          onChange={(event) => {
-            this.setState({ participants: event.target.value });
-          }}
-        />
+  return (
+    <Flex
+      direction={"column"}
+      width={"100%"}
+      height={"100%"}
+      textColor={"black"}
+    >
+      <input
+        placeholder="Chat name"
+        value={chatname}
+        onChange={(event) => {
+          setChatname(event.target.value);
+        }}
+      />
+      <input
+        placeholder="Participants' emails seperated by space, on god i will change this just later :sleep_emoji:"
+        value={participants}
+        onChange={(event) => {
+          setParticipants(event.target.value);
+        }}
+      />
 
-        <Button
-          padding={"0.75rem"}
-          bg={"blue.400"}
-          onClick={() => {
-            this.createChat();
-          }}
-        >
-          Create Chat
-        </Button>
-      </Flex>
-    );
-  }
-}
+      <Button
+        padding={"0.75rem"}
+        bg={"blue.400"}
+        onClick={() => {
+          createChat();
+        }}
+      >
+        Create Chat
+      </Button>
+    </Flex>
+  );
+};
 
 export default CreateChat;

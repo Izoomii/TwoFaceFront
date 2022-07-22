@@ -1,6 +1,6 @@
-import { Box, Button, Flex, Input } from "@chakra-ui/react";
+import { Box, Button, Center, Divider, Flex, Input } from "@chakra-ui/react";
 import axios from "axios";
-import React from "react";
+import { useEffect, useState } from "react";
 import {
   backUrl,
   CommentInterface,
@@ -9,28 +9,23 @@ import {
 } from "../globals";
 import Comment from "./Comment";
 
-class CommentsList extends React.Component<
-  { post: PostInterface; user: UserInterface | null },
-  { commentsList: CommentInterface[]; newComment: string }
-> {
-  constructor(props: { post: PostInterface; user: UserInterface | null }) {
-    super(props);
-    this.state = { commentsList: [], newComment: "" };
-  }
+const CommentsList = (props: {
+  post: PostInterface;
+  user: UserInterface | null;
+}) => {
+  const [commentsList, setCommentsList] = useState<CommentInterface[]>([]);
+  const [newComment, setNewComment] = useState<string>("");
 
-  componentDidMount() {
-    this.getPostComments();
-  }
-
-  sendComment = async () => {
-    if (!this.props.user) return;
+  const sendComment = async () => {
+    if (!props.user) return;
+    if (!newComment) return console.log("comment empty");
     await axios
       .post(
         `${backUrl}/posts/comment`,
         {
-          parent_id: this.props.post._id,
+          parent_id: props.post._id,
           parenttype: "post",
-          content: this.state.newComment,
+          content: newComment,
         },
         {
           withCredentials: true,
@@ -38,74 +33,83 @@ class CommentsList extends React.Component<
       )
       .then(({ data }) => {
         console.log(data);
-        this.setState({ newComment: "" });
-        this.getPostComments();
+        setNewComment("");
+        getPostComments();
       });
   };
 
-  getPostComments = async () => {
+  const getPostComments = async () => {
     // if (!this.props.user) return;
     await axios
       .get(
-        `${backUrl}/posts/comments?parent_id=${this.props.post._id}&parenttype=post`,
+        `${backUrl}/posts/comments?parent_id=${props.post._id}&parenttype=post`,
         { withCredentials: true }
       )
       .then(({ data }) => {
         const commentsList = data.response as CommentInterface[];
-        this.setState({ commentsList });
+        setCommentsList(commentsList);
       });
   };
 
-  render(): React.ReactNode {
-    return (
-      <Box rounded={"lg"} overflow={"hidden"} paddingY={"0.5rem"}>
-        <Flex
-          width={"100%"}
-          rounded={"lg"}
-          paddingX={"1rem"}
-          paddingY={"0.5rem"}
-        >
-          <Flex width={"100%"} height={"100%"} rounded={"xl"}>
-            <Input
-              placeholder="Your comment..."
-              value={this.state.newComment}
-              onChange={(event) => {
-                this.setState({ newComment: event.target.value });
-              }}
-              variant={"filled"}
-              padding={"0.5rem"}
-              flexGrow={"1"}
-              textColor={"black"}
-            />
-            <Button
-              onClick={() => {
-                this.sendComment();
-              }}
-              padding={"0.5rem"}
-              background={"blue.400"}
-              _hover={{ background: "blue.600" }}
-            >
-              Send
-            </Button>
-          </Flex>
-        </Flex>
+  useEffect(() => {
+    getPostComments();
+  }, []);
 
-        <Box width={"100%"} padding={"0.75rem"}>
-          {/* avoids trying to map list before it is created */}
-          {this.state.commentsList == undefined ? (
-            <></>
-          ) : (
-            this.state.commentsList.map((elem, index) => {
-              return (
-                <Comment key={index} comment={elem} user={this.props.user} />
-              );
-            })
-          )}
+  return (
+    <Flex
+      direction={"column"}
+      rounded={"lg"}
+      overflow={"hidden"}
+      paddingY={"0.5rem"}
+    >
+      <Flex width={"100%"} rounded={"lg"} paddingX={"1rem"} paddingY={"0.5rem"}>
+        <Flex width={"100%"} height={"100%"} rounded={"xl"}>
+          <Input
+            placeholder="Your comment..."
+            value={newComment}
+            onChange={(event) => {
+              setNewComment(event.target.value);
+            }}
+            onKeyUp={(event) => {
+              if (event.key === "Enter") {
+                sendComment();
+              }
+            }}
+            variant={"filled"}
+            padding={"0.5rem"}
+            flexGrow={"1"}
+            textColor={"black"}
+          />
+          {/* <Button
+            variant={"green.light"}
+            onClick={() => {
+              sendComment();
+            }}
+            padding={"0.5rem"}
+          >
+            Send
+          </Button> */}
+        </Flex>
+      </Flex>
+      <Center width={"100%"} marginTop={"0.75rem"}>
+        <Divider borderColor={"main.200"} width={"95%"} />
+      </Center>
+      {!commentsList || !(commentsList.length > 0) ? (
+        <Box margin={"1rem"} padding={"0.5rem"} bg={"main.100"} rounded={"lg"}>
+          No Comments here yet
         </Box>
-      </Box>
-      // </div>
-    );
-  }
-}
+      ) : (
+        <Flex direction={"column"}>
+          <Box width={"100%"} padding={"0.75rem"}>
+            {/* avoids trying to map list before it is created */}
+            {commentsList.map((elem, index) => {
+              return <Comment key={index} comment={elem} user={props.user} />;
+            })}
+          </Box>
+        </Flex>
+      )}
+    </Flex>
+  );
+};
 
 export default CommentsList;

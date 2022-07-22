@@ -1,20 +1,12 @@
 import { Box, Flex } from "@chakra-ui/react";
-import React from "react";
+import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { ChatInterface } from "../globals";
 
-class ChatHead extends React.Component<
-  { chatHead: ChatInterface },
-  { redirect: boolean }
-> {
-  constructor(props: { chatHead: ChatInterface }) {
-    super(props);
-    this.state = { redirect: false };
-  }
+const ChatHead = (props: { chatHead: ChatInterface }) => {
+  const [redirect, setRedirect] = useState<boolean>(false);
 
-  chatHead = this.props.chatHead;
-
-  showChat = () => {
+  const showChat = () => {
     // // if (window.location.pathname !== "/chats") {
     // // }
     // if (this.state.redirect == false) {
@@ -23,27 +15,28 @@ class ChatHead extends React.Component<
     console.log("should redirect to chat log here");
   };
 
-  render(): React.ReactNode {
-    if (this.state.redirect) {
-      // return <Navigate to={`/chats?c=${this.chatHead._id}`} />;
-    } else {
-      return (
+  return (
+    <div>
+      {redirect ? (
+        // <Navigate to={`/chats?c=${props.chatHead._id}`} />
+        <></>
+      ) : (
         <Flex
           onClick={() => {
-            this.showChat();
+            showChat();
           }}
           padding={"0.25rem"}
           marginY={"0.5rem"}
           width={"full"}
           rounded={"lg"}
-          background={"blue.400"}
+          bg={"main.500"}
         >
-          <Box marginRight={"0.5rem"}>{this.chatHead.image}</Box>
-          <Box fontSize={"xl"}>{this.chatHead.chatname}</Box>
+          <Box marginRight={"0.5rem"}>{props.chatHead.image}</Box>
+          <Box fontSize={"xl"}>{props.chatHead.chatname}</Box>
         </Flex>
-      );
-    }
-  }
-}
+      )}
+    </div>
+  );
+};
 
 export default ChatHead;

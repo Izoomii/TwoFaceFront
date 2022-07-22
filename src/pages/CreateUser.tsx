@@ -1,31 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { backUrl, redirectToHome, UserInterface } from "../globals";
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Center, Flex } from "@chakra-ui/react";
+import InputComponent from "../components/InputComponent";
 
 //this feels bad, man
-class CreateUser extends React.Component<
-  {},
-  { firstname: string; email: string; password: string; repeatPassword: string }
-> {
-  constructor(props: {}) {
-    super(props);
-    this.state = { firstname: "", email: "", password: "", repeatPassword: "" };
-  }
 
-  createProfile = () => {
-    if (
-      this.state.firstname === "" ||
-      this.state.email === "" ||
-      this.state.password === ""
-    )
+const CreateUser = () => {
+  const [firstname, setFirstname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+
+  const createProfile = () => {
+    if (firstname === "" || email === "" || password === "")
       return console.log("All fields are required!");
 
     const userInfo = {
-      firstname: this.state.firstname,
-      email: this.state.email,
-      password: this.state.password,
-      repeatPassword: this.state.repeatPassword,
+      firstname,
+      email,
+      password,
+      repeatPassword,
     };
     axios
       .post(`${backUrl}/users/create`, userInfo, {
@@ -40,49 +35,54 @@ class CreateUser extends React.Component<
       });
   };
 
-  render(): React.ReactNode {
-    return (
-      <Flex direction={"column"} padding={"1.25rem"} textColor={"black"}>
-        <input
-          placeholder="First name"
-          value={this.state.firstname}
-          onChange={(event) => {
-            this.setState({ firstname: event.target.value });
-          }}
+  return (
+    <Center width={"100%"} height={"100%"}>
+      <Flex
+        direction={"column"}
+        justifyContent={"space-evenly"}
+        padding={"1rem"}
+        width={"33%"}
+        // height={"45%"}
+        bg={"whiteAlpha.300"}
+        rounded={"lg"}
+      >
+        <InputComponent
+          label="First Name"
+          inputLeftAddon="A"
+          inputValue={firstname}
+          onChangeFunction={setFirstname}
         />
-        <input
-          placeholder="Email"
-          value={this.state.email}
-          onChange={(event) => {
-            this.setState({ email: event.target.value });
-          }}
+        <InputComponent
+          label="Email"
+          inputLeftAddon="@"
+          inputValue={email}
+          onChangeFunction={setEmail}
         />
-        <input
-          placeholder="Password"
-          value={this.state.password}
-          onChange={(event) => {
-            this.setState({ password: event.target.value });
-          }}
+        <InputComponent
+          label="Password"
+          inputLeftAddon="*"
+          inputValue={password}
+          onChangeFunction={setPassword}
         />
-        <input
-          placeholder="Repeat Password"
-          value={this.state.repeatPassword}
-          onChange={(event) => {
-            this.setState({ repeatPassword: event.target.value });
-          }}
+        <InputComponent
+          label="Repeat Password"
+          inputLeftAddon="*"
+          inputValue={repeatPassword}
+          onChangeFunction={setRepeatPassword}
         />
         <Button
+          variant={"green.dark"}
           onClick={() => {
-            this.createProfile();
+            createProfile();
           }}
           padding={"0.75rem"}
-          bg={"blue.500"}
+          marginY={"0.75rem"}
         >
           Create Profile
         </Button>
       </Flex>
-    );
-  }
-}
+    </Center>
+  );
+};
 
 export default CreateUser;

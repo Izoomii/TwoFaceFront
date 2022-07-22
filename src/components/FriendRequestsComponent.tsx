@@ -96,7 +96,7 @@ const FriendRequestComponent = (props: {
     props.connectedUser._id === props.viewedUser._id ? (
     <></>
   ) : (
-    <Box width={"100%"} height={"100%"} rounded={"lg"} background={"slategray"}>
+    <Box width={"100%"} height={"100%"} rounded={"lg"} bg={"slategray"}>
       <div>
         {!friendship ? (
           <div>friendship doesnt exist</div>
@@ -116,7 +116,7 @@ const FriendRequestComponent = (props: {
           rounded={"lg"}
           fontSize={"2xl"}
           textColor={"white"}
-          background={"blue.600"}
+          bg={"blue.600"}
         >
           {panelState !== "accept/decline" ? panelState : "Accept"}
         </Button>

@@ -2,10 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import axios from "axios";
+import { themes } from "./themes";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,23 +13,10 @@ const root = ReactDOM.createRoot(
 
 // axios.defaults.timeout = 20000;
 
-const theme = extendTheme({
-  colors: {
-    ariana: {
-      100: "#E2F9A9",
-      200: "#B2C484",
-      300: "#95AD9F",
-      400: "#BEC4B8",
-      500: "#DBD3BC",
-      600: "#B6B6B6",
-    },
-  },
-});
-
 //https://stackoverflow.com/a/72072443/19483118
 root.render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={themes}>
       <BrowserRouter>
         <App />
       </BrowserRouter>

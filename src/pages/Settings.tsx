@@ -1,6 +1,6 @@
 import { Box, Button, Flex } from "@chakra-ui/react";
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   backUrl,
   isAuthentified,
@@ -8,59 +8,41 @@ import {
   UserInterface,
 } from "../globals";
 
-class Settings extends React.Component<
-  {},
-  {
-    profilePicture: string;
-    user: UserInterface | null;
-    updatedUser: UserInterface;
-  }
-> {
-  profilePictureRef: React.RefObject<any>; //enforce type
+const Settings = () => {
+  const [profilePicture, setProfilePicture] = useState("");
+  const [user, setUser] = useState<UserInterface | null>(null);
+  const [updatedUser, setUpdatedUser] = useState<UserInterface>({
+    _id: "",
+    firstname: "",
+    email: "",
+    password: "",
+    lastname: "",
+    bio: "",
+    profilepicture: "",
+    backgroundpicture: "",
+  });
+  const profilePictureRef = useRef<any>();
 
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      profilePicture: "", //image uploaded
-      user: null,
-      updatedUser: {
-        _id: "",
-        firstname: "",
-        email: "",
-        password: "",
-        lastname: "",
-        bio: "",
-        profilepicture: "",
-        backgroundpicture: "",
-      },
-    };
-    this.profilePictureRef = React.createRef();
-  }
-
-  async componentDidMount() {
-    try {
-      const user = await isAuthentified();
+  useEffect(() => {
+    isAuthentified().then((user) => {
       if (!user) return redirectToLogin();
-      this.setState({ user: user, updatedUser: user });
-    } catch {
-      console.log("bruh");
-    }
-  }
+      setUser(user);
+      setUpdatedUser(user);
+    });
+  });
 
-  updateUserInfo = async () => {
-    const updatedUser = this.state.updatedUser;
+  const updateUserInfo = async () => {
     const formData = new FormData();
     let key: keyof UserInterface;
     for (key in updatedUser) {
       formData.append(key, updatedUser[key]);
     }
 
-    if (this.state.profilePicture)
-      formData.append("profilePicture", this.state.profilePicture);
+    if (profilePicture) formData.append("profilePicture", profilePicture);
 
     await axios
       .post(`${backUrl}/users/update`, formData, {
-        timeout: 20000,
+        // timeout: 20000,
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -74,68 +56,65 @@ class Settings extends React.Component<
       });
   };
 
-  render(): React.ReactNode {
-    return (
-      <Box width={"100%"} height={"100%"}>
-        {!this.state.user ? (
-          <div>no user</div>
-        ) : (
-          <Flex
-            direction={"column"}
-            width={"33%"}
-            height={"100%"}
-            textColor={"black"}
-          >
-            <input
-              placeholder="Lastname"
-              value={this.state.updatedUser.lastname}
-              //nest the nest of the nest of the nest of the nest of the nest of the nest
-              onChange={(event) => {
-                this.setState((prevState) => ({
-                  updatedUser: {
-                    ...prevState.updatedUser,
-                    lastname: event.target.value,
-                  },
-                }));
-              }}
-            />
-            <input
-              placeholder="bio"
-              value={this.state.updatedUser.bio}
-              onChange={(event) => {
-                this.setState((prevState) => ({
-                  updatedUser: {
-                    ...prevState.updatedUser,
-                    bio: event.target.value,
-                  },
-                }));
-              }}
-            />
-            <input
-              type={"file"}
-              name="profilePicture"
-              ref={this.profilePictureRef}
-              onChange={() => {
-                this.setState({
-                  profilePicture: this.profilePictureRef.current.files[0],
-                });
-              }}
-            />
+  return (
+    <Box width={"100%"} height={"100%"}>
+      {!user ? (
+        <div>no user</div>
+      ) : (
+        <Flex
+          direction={"column"}
+          width={"33%"}
+          height={"100%"}
+          textColor={"black"}
+        >
+          <input
+            placeholder="Lastname"
+            value={updatedUser.lastname}
+            //nest the nest of the nest of the nest of the nest of the nest of the nest
+            onChange={(event) => {
+              setUpdatedUser((prev) => ({
+                ...prev,
+                lastname: event.target.value,
+              }));
+            }}
+          />
+          <input
+            placeholder="bio"
+            value={updatedUser.bio}
+            onChange={(event) => {
+              setUpdatedUser((prev) => ({
+                ...prev,
+                bio: event.target.value,
+              }));
+            }}
+          />
+          <input
+            type={"file"}
+            name="profilePicture"
+            ref={profilePictureRef}
+            onChange={() => {
+              setProfilePicture(profilePictureRef.current.files[0]);
+            }}
+          />
 
-            <Button
-              padding={"0.5rem"}
-              bg={"blue.600"}
-              onClick={() => {
-                this.updateUserInfo();
-              }}
-            >
-              Updated Info
-            </Button>
-          </Flex>
-        )}
-      </Box>
-    );
-  }
-}
+          <Button
+            padding={"0.5rem"}
+            bg={"blue.600"}
+            onClick={() => {
+              updateUserInfo();
+            }}
+          >
+            Updated Info
+          </Button>
+        </Flex>
+      )}
+    </Box>
+  );
+};
+
+//   render(): React.ReactNode {
+
+//   }
+// }
 
 export default Settings;

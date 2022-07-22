@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { isAuthentified, UserInterface } from "../globals";
-import { Box, Center, Flex, HStack } from "@chakra-ui/react";
+import { Box, Flex, Icon, Img } from "@chakra-ui/react";
+import ProfileDropdownComponent from "./ProfileDropdownComponent";
+import { AiFillHome } from "react-icons/ai";
+import { FaUserFriends, FaComments } from "react-icons/fa";
+
 const Header = () => {
   const [user, setUser] = useState<UserInterface | null>(null);
 
@@ -15,10 +19,11 @@ const Header = () => {
   // ==2F====== Home dskh asdf asdf ===          Khalid
 
   return (
-    <Flex width={"full"} height={"3.5rem"} background={"blue.900"}>
-      <Flex width={"25%"} height={"full"} background="blue.400"></Flex>
+    <Flex width={"full"} height={"3.5rem"} bg={"main.800"}>
+      <Flex flexGrow={"1"} height={"full"}></Flex>
       <Flex
         width={"50%"}
+        bg={"blackAlpha.400"}
         height={"full"}
         justifyContent="space-evenly"
         alignItems={"center"}
@@ -26,23 +31,26 @@ const Header = () => {
         fontSize="2xl"
         fontWeight={"bold"}
       >
-        <Link to={"/"}>Home</Link>
+        <Link to={"/"}>
+          <Icon as={AiFillHome} boxSize={"32px"} />
+        </Link>
 
-        <Link to={"/settings"}>Settings</Link>
-        <Link to={"/chats"}>Chats</Link>
+        <Link to={"/friends"}>
+          <Icon as={FaUserFriends} boxSize={"32px"} />
+        </Link>
+        <Link to={"/chats"}>
+          <Icon as={FaComments} boxSize={"32px"} />
+        </Link>
         <Link to={"/test"}>TEST</Link>
       </Flex>
       <Flex
-        width={"25%"}
+        flexGrow={"1"}
         height={"full"}
-        background="blue.400"
         justifyContent={"end"}
         alignItems="center"
       >
         {user ? (
-          <Center textColor={"white"} fontSize={"2xl"} fontWeight={"bold"}>
-            <Link to={`/users/${user._id}`}>{user.firstname}</Link>
-          </Center>
+          <ProfileDropdownComponent user={user} />
         ) : (
           <Box fontSize={"xl"}>
             <Link to={"/login"}>Login</Link>

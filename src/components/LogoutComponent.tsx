@@ -1,33 +1,20 @@
-import { Flex } from "@chakra-ui/react";
-import axios from "axios";
-import { backUrl, UserInterface } from "../globals";
+import { Button, Flex } from "@chakra-ui/react";
+import { logoutUser } from "../globals";
 
 const LogoutComponent = () => {
-  const logoutUser = async () => {
-    await axios
-      .post(`${backUrl}/users/logout`, {}, { withCredentials: true })
-      .then(({ data }) => {
-        console.log(data);
-        window.location.pathname = "/login";
-      });
-  };
-
   return (
-    <Flex
+    <Button
+      variant={"red.default"}
       onClick={() => {
         logoutUser();
       }}
       width={"100%"}
       height={"100%"}
-      bg={"red.500"}
       rounded={"lg"}
-      textColor={"white"}
       fontSize={"2xl"}
-      justifyContent={"center"}
-      alignItems={"center"}
     >
       Logout
-    </Flex>
+    </Button>
   );
 };
 

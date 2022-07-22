@@ -24,11 +24,14 @@ const PostCard = (props: {
   user: UserInterface | null;
 }) => {
   const [likesAmount, setLikesAmount] = useState<number | null>(null);
+  const [postPage, setPostPage] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     getLikes();
+    const path = window.location.pathname;
+    if (path === `/posts/${props.post._id}`) setPostPage(true);
   }, []);
 
   const getLikes = async () => {
@@ -56,20 +59,26 @@ const PostCard = (props: {
       });
   };
 
+  const goToPost = () => {
+    navigate(`/posts/${props.post._id}`);
+  };
+
   return (
     <Flex
       direction={"column"}
       padding={"1.25rem"}
       marginBottom={"1rem"}
       width={"100%"}
-      bg={"slategray"}
+      bg={"whiteAlpha.200"}
+      border={"2px"}
+      borderColor={"main.100"}
       rounded={"lg"}
     >
       <Flex flexGrow={"0"}>
         <Flex direction={"column"} grow={"1"}>
           <Box
             onClick={() => {
-              navigate(`/posts/${props.post._id}`);
+              goToPost();
             }}
             fontSize={"2xl"}
           >
@@ -81,46 +90,59 @@ const PostCard = (props: {
         </Flex>
 
         <Button
+          variant={"green.light"}
           onClick={() => {
             likePost();
           }}
-          bg={"blue.400"}
           padding={"0.75rem"}
           height={"100%"}
           width={"min"}
           rounded={"lg"}
         >
-          Like {likesAmount == null ? "" : `(${likesAmount})`}
+          Like {!likesAmount ? "" : `(${likesAmount})`}
         </Button>
       </Flex>
-      <Box
-        padding={"1.25rem"}
-        width={"100%"}
-        bg={"gray.700"}
+      <Flex
+        direction={"column"}
+        bg={"blackAlpha.400"}
+        marginBottom={"1rem"}
         rounded={"lg"}
-        textColor={"white"}
       >
-        {props.post.content}
-      </Box>
-      {!props.post.image ? (
-        <></>
-      ) : (
-        <Center width={"100%"}>
-          <AspectRatio
-            maxW={"50%"}
-            minW={"50%"}
-            ratio={16 / 9}
-            marginY={"1rem"}
-          >
-            <Img
-              src={`${postPicturePath}/${props.post.image}`}
-              objectFit={"cover"}
-              rounded={"xl"}
-            />
-          </AspectRatio>
-        </Center>
-      )}
-      <Flex direction={"column"} width={"100%"} bg={"gray.600"} rounded={"lg"}>
+        <Box padding={"1.25rem"} width={"100%"} textColor={"black"}>
+          {props.post.content}
+        </Box>
+        {!props.post.image ? (
+          <></>
+        ) : (
+          <Center width={"100%"} paddingBottom={"1rem"}>
+            {postPage ? (
+              <Img
+                src={`${postPicturePath}/${props.post.image}`}
+                objectFit={"cover"}
+                rounded={"xl"}
+                maxH={"90vh"}
+              />
+            ) : (
+              <AspectRatio maxW={"60%"} minW={"60%"} ratio={16 / 9}>
+                <Img
+                  src={`${postPicturePath}/${props.post.image}`}
+                  onClick={() => {
+                    goToPost();
+                  }}
+                  objectFit={"contain"}
+                  rounded={"xl"}
+                />
+              </AspectRatio>
+            )}
+          </Center>
+        )}
+      </Flex>
+      <Flex
+        direction={"column"}
+        width={"100%"}
+        bg={"blackAlpha.200"}
+        rounded={"lg"}
+      >
         <CommentsList post={props.post} user={props.user} />
       </Flex>
     </Flex>

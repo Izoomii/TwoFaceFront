@@ -78,6 +78,15 @@ export const isAuthentified = async (): Promise<UserInterface | null> => {
   return user;
 };
 
+export const logoutUser = async () => {
+  await axios
+    .post(`${backUrl}/users/logout`, {}, { withCredentials: true })
+    .then(({ data }) => {
+      console.log(data);
+      window.location.pathname = "/login";
+    });
+};
+
 export const redirectToLogin = () => {
   console.log("get redirected here");
   window.location.pathname = "/login";
